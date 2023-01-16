@@ -20,6 +20,7 @@
                 <button class="num" onclick="input(this)">7</button>
                 <button class="num" onclick="input(this)">8</button>
                 <button class="num" onclick="input(this)">9</button>
+                <button data-action="clear" onclick="clear_calc()">AC</button>
                 <button class="num" onclick="input(this)">4</button>
                 <button class="num" onclick="input(this)">5</button>
                 <button class="num" onclick="input(this)">6</button>
@@ -28,7 +29,7 @@
                 <button class="num" onclick="input(this)">3</button>
                 <button class="num" onclick="input(this)">0</button>
                 <button data-action="decimal" onclick="input(this)">.</button>
-                <button data-action="clear" onclick="clear_calc()">AC</button>
+                <button data-action="del" onclick="delete_in()">del</button>
                 <button class="key_eq" data-action="calculate" onclick="final_calc()">=</button>
             </div>
         </div>

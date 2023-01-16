@@ -7,57 +7,59 @@ const ans = document.querySelector('#res');
 
 // VARIABLES GLOBALES
 
-let op = false;
 let screen_string = '';
 let res = '';
-
-opers = '+-x/';
+const opers = '+-x/';
 
 function update() {
     screen.textContent = screen_string;
-    if (res) {
-        ans.textContent = res;
-    }
+    ans.textContent = res;
 }
 
 function input(btn) {
     let btn_in = btn.textContent;
     if (opers.includes(btn_in)) {
-        if (op || screen_string === '' && btn_in != '-') {
+        if (screen_string === '') {
+            if (btn_in !== '-') {
+                return;
+            }
+        }
+        else if (opers.includes(screen_string[screen_string.length - 1]) && btn_in !== '-') {
             return;
         }
-        op = true;
     }
-    else {
-        if (op) {
-            op = false;
+    else if (btn_in === '.') {
+        if (screen_string[screen_string.length - 1] === '.') {
+            return;
         }
     }
     screen_string = screen_string.concat(btn_in);
     calculate();
 }
 
+function delete_in() {
+    screen_string = screen_string.slice(0, screen_string.length - 1);
+    calculate();
+}
+
 function clear_calc() {
     screen_string = '';
     res = '';
-    ans.textContent = '';
     update();
 }
 
 function calculate() {
     let expr = screen_string;
     expr = expr.replace('x', '*');
-    let onlyNum = /^\d*$/.test(expr) || expr.includes('.') && expr.length >= 1;
-    let aber = expr.split(/\d*\.?\d+[+*-\/]\d*\.?\d+/);
-    console.log(aber);
+    const re = /(?!^-)(?!\.)[+*-\/]/; // ADD () TO CAPTURE OPERATION: ...([+*-\/])...
+    const splitExpr = expr.split(re);
     try {
         res = math.evaluate(expr);
     }
     catch {
-        expr = expr.slice(0, -1);
-        res = math.evaluate(expr);
-
+        console.log('pico');
     }
+
     update();
 }
 
@@ -65,5 +67,4 @@ function final_calc() {
     screen_string = res;
     res = '';
     update();
-    screen_string = '';
 }
